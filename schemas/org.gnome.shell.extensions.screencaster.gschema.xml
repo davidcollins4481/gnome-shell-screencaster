@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extension-screencaster">
+  <schema path="/org/gnome/shell/extensions/screencaster/" id="org.gnome.shell.extensions.screencaster">
+    <key type="s" name="file-format">
+      <default>'screencast-%d'</default>
+      <summary>Pattern used to for screencast saved filename</summary>
+      <description>Some better description eventually.</description>
+    </key>
+  </schema>
+</schemalist>

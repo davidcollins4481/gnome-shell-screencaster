@@ -1,0 +1,7 @@
+{
+    "name": "Screencaster",
+    "description": "Simple extension to create screencasts",
+    "uuid": "Screencaster@hopper",
+    "shell-version": ["3.26.1"],
+    "settings-schema": "org.gnome.shell.extensions.screencaster"
+}
