@@ -5,7 +5,29 @@
   <object class="GtkBox" id="main-box">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="halign">center</property>
+    <property name="valign">center</property>
+    <property name="margin_left">10</property>
+    <property name="margin_right">10</property>
+    <property name="margin_top">10</property>
     <property name="orientation">vertical</property>
+    <property name="baseline_position">top</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">label</property>
+        <property name="justify">fill</property>
+        <attributes>
+          <attribute name="gravity" value="west"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
     <child>
       <object class="GtkEntry">
         <property name="visible">True</property>
@@ -13,27 +35,31 @@
       </object>
       <packing>
         <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
+        <property name="fill">False</property>
+        <property name="padding">10</property>
+        <property name="position">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkFileChooserButton">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="action">select-folder</property>
         <property name="title" translatable="yes"/>
       </object>
       <packing>
         <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
+        <property name="fill">False</property>
+        <property name="padding">10</property>
+        <property name="position">2</property>
       </packing>
     </child>
     <child>
       <object class="GtkButtonBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="layout_style">start</property>
+        <property name="spacing">10</property>
+        <property name="layout_style">end</property>
         <child>
           <object class="GtkButton">
             <property name="label" translatable="yes">button</property>
@@ -63,8 +89,9 @@
       </object>
       <packing>
         <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
+        <property name="fill">False</property>
+        <property name="padding">10</property>
+        <property name="position">3</property>
       </packing>
     </child>
   </object>
