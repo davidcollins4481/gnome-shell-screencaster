@@ -9,7 +9,7 @@ const EXTENSIONDIR = Me.dir.get_path();
 const Gettext = imports.gettext.domain('gnome-shell-extension-screencaster');
 const _ = Gettext.gettext;
 const Convenience = Me.imports.convenience;
-const SCREENCAST_SETTINGS_SCHEMA = 'org.gnome.shell.extensions.screencaster'; 
+const SCREENCAST_SETTINGS_SCHEMA = 'org.gnome.shell.extensions.screencaster';
 
 const ScreencasterPrefsWidget = new GObject.Class({
     Name: 'Screencaster.Prefs.Widget',
@@ -29,6 +29,10 @@ const ScreencasterPrefsWidget = new GObject.Class({
         this.initWindow();
 
         this.mainWidget = this.Window.get_object("main-box");
+        this.fileFormat = this.Window.get_object("file-format");
+
+        let savedStocks = this._settings.get_string("file-format");
+        this.fileFormat.clear();
        // this.tickerAdd.connect('clicked', Lang.bind(this, this.addTickerSymbol));
 
        // this.Window.get_object("add-ticker-cancel").connect("clicked", Lang.bind(this, function() {

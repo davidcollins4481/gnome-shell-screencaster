@@ -52,7 +52,7 @@ var Screencast = function() {
 
 Screencast.prototype.start = function(callback) {
     callback = typeof(callback) === "undefined" ? function() {} : callback;
-    this.obj.ScreencastRemote("/home/david/Desktop/cast", [], callback);
+    this.obj.ScreencastRemote("/home/dave/Desktop/cast", [], callback);
 };
 
 Screencast.prototype.stop = function(callback) {
