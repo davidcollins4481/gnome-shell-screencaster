@@ -2,6 +2,13 @@
 
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
+const Convenience = Me.imports.convenience;
+const SCREENCAST_SETTINGS_SCHEMA = 'org.gnome.shell.extensions.screencaster';
+const SAVE_TO_DIRECTORY = 'save-to-directory';
+const FILE_FORMAT = 'file-format';
+
 // dbus-send --print-reply --dest=org.gnome.Shell /org/gnome/Shell/Screencast org.freedesktop.DBus.Introspectable.Introspect
 
 var Screencast = function() {
@@ -42,20 +49,37 @@ var Screencast = function() {
 	';
 
     this.proxy = Gio.DBusProxy.makeProxyWrapper(this.dbusInterface);
+    this._settings = Convenience.getSettings(SCREENCAST_SETTINGS_SCHEMA);
 
     this.obj = new this.proxy(
         Gio.DBus.session,
         "org.gnome.Shell.Screencast", // busname
         "/org/gnome/Shell/Screencast" // interface
     );
-}
 
-Screencast.prototype.start = function(callback) {
-    callback = typeof(callback) === "undefined" ? function() {} : callback;
-    this.obj.ScreencastRemote("/home/dave/Desktop/cast", [], callback);
-};
+    let that = this;
 
-Screencast.prototype.stop = function(callback) {
-    callback = typeof(callback) === "undefined" ? function() {} : callback;
-    this.obj.StopScreencastRemote(callback);
+    let getFileName = function() {
+        let date = new Date();
+        let dateString = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+        let name = that._settings.get_string(FILE_FORMAT);
+        return name.replace('%d', dateString);
+    };
+
+    let getDirectory = function() {
+        return that._settings.get_string(SAVE_TO_DIRECTORY);
+    };
+
+    return {
+        start: function(callback) {
+            callback = typeof(callback) === "undefined" ? function() {} : callback;
+            let path = getDirectory() + "/" + getFileName();
+            that.obj.ScreencastRemote(path, [], callback);
+        },
+
+        stop: function(callback) {
+            callback = typeof(callback) === "undefined" ? function() {} : callback;
+            that.obj.StopScreencastRemote(callback);
+        }
+    };
 }
