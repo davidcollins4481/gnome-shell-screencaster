@@ -6,5 +6,11 @@
       <summary>Pattern used to for screencast saved filename</summary>
       <description>Some better description eventually.</description>
     </key>
+
+    <key type="s" name="save-to-directory">
+        <default>'%HOME%/Videos'</default>
+      <summary>The directory where screencasts will be saved</summary>
+      <description>Some better description eventually.</description>
+    </key>
   </schema>
 </schemalist>

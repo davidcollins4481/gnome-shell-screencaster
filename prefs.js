@@ -1,4 +1,5 @@
 const Gtk = imports.gi.Gtk;
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
@@ -10,6 +11,10 @@ const Gettext = imports.gettext.domain('gnome-shell-extension-screencaster');
 const _ = Gettext.gettext;
 const Convenience = Me.imports.convenience;
 const SCREENCAST_SETTINGS_SCHEMA = 'org.gnome.shell.extensions.screencaster';
+
+// SCHEMA KEYS
+const SAVE_TO_DIRECTORY = 'save-to-directory';
+const FILE_FORMAT = 'file-format';
 
 const ScreencasterPrefsWidget = new GObject.Class({
     Name: 'Screencaster.Prefs.Widget',
@@ -28,17 +33,31 @@ const ScreencasterPrefsWidget = new GObject.Class({
 
         this.initWindow();
 
-        this.mainWidget = this.Window.get_object("main-box");
-        this.fileFormat = this.Window.get_object("file-format");
+        this.mainWidget = this.Window.get_object('main-box');
+        this.fileFormat = this.Window.get_object('file-format');
+        this.saveFolder = this.Window.get_object('save-to-folder');
+        this.okBtn = this.Window.get_object('ok-btn');
+        this.cancelBtn = this.Window.get_object('cancel-btn');
 
-        let savedStocks = this._settings.get_string("file-format");
-        this.fileFormat.clear();
-       // this.tickerAdd.connect('clicked', Lang.bind(this, this.addTickerSymbol));
+        this.fileFormat.set_text(this._settings.get_string(FILE_FORMAT));
 
-       // this.Window.get_object("add-ticker-cancel").connect("clicked", Lang.bind(this, function() {
-       //     this.newTicker.hide();
-       // }));
+        let destinationFolder = this._settings.get_string(SAVE_TO_DIRECTORY);
+        destinationFolder = destinationFolder.replace('%HOME%', GLib.get_home_dir());
+        this.saveFolder.set_current_folder(destinationFolder);
 
+        let that = this;
+        this.saveFolder.connect('file-set', Lang.bind(this, function(chooser) {
+            that._settings.set_string(SAVE_TO_DIRECTORY, chooser.get_filename());
+        }));
+
+        this.okBtn.connect('clicked', Lang.bind(this, function() {
+            this._settings.set_string(FILE_FORMAT, this.fileFormat.get_text());
+            this.mainWidget.parent.hide();
+        }));
+
+        this.cancelBtn.connect("clicked", Lang.bind(this, function() {
+            this.mainWidget.parent.hide();
+        }));
     },
 
     Window: new Gtk.Builder(),
